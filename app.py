@@ -64,7 +64,8 @@ if analyze_clicked:
         st.warning("Please enter enough meaningful text to analyze.")
     else:
         prediction = model.predict(features)[0]
-        ai_percent = round(random.uniform(50, 75), 1) if len(text.strip()) >= MIN_RANDOM_LEN else None
+        probabilities = model.predict_proba(features)[0]
+        confidence = max(probabilities) * 100
 
         result_col, score_col = st.columns(2)
 
@@ -73,14 +74,7 @@ if analyze_clicked:
                 st.success("Human-written")
             elif prediction == 2:
                 st.error("Likely Mixed-Text")
-                ai_percent = round(random.uniform(50, 75), 1) if len(text.strip()) >= MIN_RANDOM_LEN else None
             else:
                 st.error("Likely AI - Generated")
 
-        if prediction == 2:
-            with score_col:
-                if ai_percent is not None:
-                    st.metric(label="AI likelihood", value=f"{ai_percent} %")
-                    st.progress(int(ai_percent))
-                else:
-                    st.info(f"AI likelihood shown for texts over {MIN_RANDOM_LEN} characters.")
+        st.metric("Confidence Score", f"{confidence:.1f}%")
