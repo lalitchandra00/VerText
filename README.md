@@ -1,4 +1,4 @@
-# VeriScript
+# VerText
 
 Fast, lightweight Streamlit app to gauge whether pasted text is AI-generated, human-written, or mixed. It loads a pre-trained classifier (`model.pkl`) and vectorizer (`vectorizer.pkl`), cleans text with NLTK, and surfaces a simple verdict with an optional AI-likelihood meter.
 
